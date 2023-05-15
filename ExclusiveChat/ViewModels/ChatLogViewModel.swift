@@ -13,7 +13,7 @@ struct FirebaseConstants{
     static let formId = "fromId"
     static let toId = "toId"
     static let text = "text"
-    static let timestamp = "timeStamp"
+    static let timeStamp = "timeStamp"
 }
 
 struct ChatMessage: Identifiable{
@@ -23,12 +23,14 @@ struct ChatMessage: Identifiable{
     let fromId : String
     let toId : String
     let text : String
+    let timeStamp : String
     
     init(documentId: String, data: [String: Any]){
         self.documentId = documentId
         self.fromId = data[FirebaseConstants.formId] as? String ?? ""
         self.toId = data[FirebaseConstants.toId] as? String ?? ""
         self.text = data[FirebaseConstants.text] as? String ?? ""
+        self.timeStamp = data[FirebaseConstants.timeStamp] as? String ?? ""
         
     }
 }
@@ -55,6 +57,7 @@ struct ChatMessage: Identifiable{
             .collection("messages")
             .document(fromId)
             .collection(toId)
+            .order(by: FirebaseConstants.timeStamp)
             .addSnapshotListener{querySnapshot, error in
                 if let error = error {
                     self.errorMessage = "Failed to listen for messages"
@@ -70,18 +73,10 @@ struct ChatMessage: Identifiable{
                     }
                     
                 })
-                
-                
-//                querySnapshot?.documents.forEach({ queryDocumentSnapshot in
-//                  let data = queryDocumentSnapshot.data()
-//                    let documentId = queryDocumentSnapshot.documentID
-//                let chatMessage  = ChatMessage(documentId: documentId, data: data)
-//                    self.chatMessages.append(chatMessage)
-//                    
-//                })
             }
     }
     
+      
     func handleSend(){
         guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else {return}
         guard let toId = chatUser?.uid else {return}
@@ -91,7 +86,7 @@ struct ChatMessage: Identifiable{
             .collection(toId)
             .document()
         
-        let messageData = [FirebaseConstants.formId:fromId, FirebaseConstants.toId: toId, FirebaseConstants.text: self.chatMessage, FirebaseConstants.timestamp: Timestamp()] as [String: Any]
+        let messageData = [FirebaseConstants.formId:fromId, FirebaseConstants.toId: toId, FirebaseConstants.text: self.chatMessage, FirebaseConstants.timeStamp: Timestamp()] as [String: Any]
         
             document.setData(messageData){ error in
             if let error = error {

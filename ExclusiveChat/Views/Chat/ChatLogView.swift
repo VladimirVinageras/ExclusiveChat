@@ -28,29 +28,55 @@ struct ChatLogView: View{
  var messagesView: some View {
      
          ScrollView{
+            
              ForEach(chatLogViewModel.chatMessages){message in
-          //   ForEach(0..<10) { num in
-                 HStack{
-                     Spacer()
-                     VStack{
+                 
+                 VStack{
+                     if message.fromId == String(FirebaseManager.shared.auth.currentUser?.uid ?? ""){
                          HStack{
                              Spacer()
-                             Text(message.text)
-                                 .foregroundColor(.white)
+                                 HStack{
+                                  
+                                     Text(message.text)
+                                         .foregroundColor(.white)
+                            
+        //                             Text(message.timeStamp)
+        //                                 .foregroundColor(.green)
+                                 }
+                             .padding()
+                             .background(.mint)
+                             .cornerRadius(12)
                          }
-                         
+                         .padding(.horizontal)
+                         .padding(.top, 4 )
                      }
-                     .padding()
-                     .background(.blue)
-                     .cornerRadius(12)
+                     else{
+                         HStack{
+                           
+                                 HStack{
+                                     Text(message.text)
+                                         .foregroundColor(.white)
+                            
+        //                             Text(message.timeStamp)
+        //                                 .foregroundColor(.green)
+                                 }
+                             .padding()
+                             .background(.blue)
+                             .cornerRadius(12)
+                             
+                             Spacer()
+                         }
+                         .padding(.horizontal)
+                         .padding(.top, 4 )
+                     }
                  }
-                 .padding(.horizontal)
-                 .padding(.top, 4 )
+                
              }
              HStack{
                  Spacer()
              }
          }
+     
          .background(Color(.init(white: 0.95, alpha: 1)))
          .safeAreaInset(edge: .bottom){
              chatBottomBarView
@@ -76,7 +102,9 @@ var chatBottomBarView: some View {
                 .frame(height: 40)
                 
                 Button{
-                    chatLogViewModel.handleSend()
+                    if(!chatLogViewModel.chatMessage.isEmpty){
+                        chatLogViewModel.handleSend()
+                    }
                 }label: {
                     Text("Send")
                         .foregroundColor(Color(.init(white: 0.95, alpha: 1)))
