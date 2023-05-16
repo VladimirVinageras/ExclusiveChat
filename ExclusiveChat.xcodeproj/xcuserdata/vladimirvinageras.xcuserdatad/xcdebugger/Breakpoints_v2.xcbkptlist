@@ -3,4 +3,117 @@
    uuid = "969F4935-9E4D-49C2-932D-C46C8C04646A"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "923B984A-12D2-4B77-A319-FDAB01C102A8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ExclusiveChat/ViewModels/MainMessageViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "fetchRecentMessages()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "923B984A-12D2-4B77-A319-FDAB01C102A8 - e2e923718e111c81"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.FIRDocumentChange) -&gt; () in closure #1 (Swift.Optional&lt;__C.FIRQuerySnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in ExclusiveChat.MainMessageViewModel.fetchRecentMessages() -&gt; ()"
+                  moduleName = "ExclusiveChat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladimirvinageras/Desktop/SWIFT%20DEV/ExclusiveChat/ExclusiveChat/ViewModels/MainMessageViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "1236">
+               </Location>
+               <Location
+                  uuid = "923B984A-12D2-4B77-A319-FDAB01C102A8 - e2e923718e111c81"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.FIRDocumentChange) -&gt; () in closure #1 (Swift.Optional&lt;__C.FIRQuerySnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in ExclusiveChat.MainMessageViewModel.fetchRecentMessages() -&gt; ()"
+                  moduleName = "ExclusiveChat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladimirvinageras/Desktop/SWIFT%20DEV/ExclusiveChat/ExclusiveChat/ViewModels/MainMessageViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "1068">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1A237582-1DC5-4DD4-833A-31B87C0EE653"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ExclusiveChat/ViewModels/MainMessageViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "fetchRecentMessages()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1A237582-1DC5-4DD4-833A-31B87C0EE653 - e2e923718e111ca6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.FIRDocumentChange) -&gt; () in closure #1 (Swift.Optional&lt;__C.FIRQuerySnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in ExclusiveChat.MainMessageViewModel.fetchRecentMessages() -&gt; ()"
+                  moduleName = "ExclusiveChat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladimirvinageras/Desktop/SWIFT%20DEV/ExclusiveChat/ExclusiveChat/ViewModels/MainMessageViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "580">
+               </Location>
+               <Location
+                  uuid = "1A237582-1DC5-4DD4-833A-31B87C0EE653 - e2e923718e111ca6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.FIRDocumentChange) -&gt; () in closure #1 (Swift.Optional&lt;__C.FIRQuerySnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in ExclusiveChat.MainMessageViewModel.fetchRecentMessages() -&gt; ()"
+                  moduleName = "ExclusiveChat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladimirvinageras/Desktop/SWIFT%20DEV/ExclusiveChat/ExclusiveChat/ViewModels/MainMessageViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "1072">
+               </Location>
+               <Location
+                  uuid = "1A237582-1DC5-4DD4-833A-31B87C0EE653 - e2e923718e111ca6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.FIRDocumentChange) -&gt; () in closure #1 (Swift.Optional&lt;__C.FIRQuerySnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in ExclusiveChat.MainMessageViewModel.fetchRecentMessages() -&gt; ()"
+                  moduleName = "ExclusiveChat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vladimirvinageras/Desktop/SWIFT%20DEV/ExclusiveChat/ExclusiveChat/ViewModels/MainMessageViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "680">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

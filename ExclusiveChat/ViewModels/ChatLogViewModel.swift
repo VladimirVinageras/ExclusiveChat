@@ -20,6 +20,8 @@ struct FirebaseConstants{
     static let messages = "messages"
 }
 
+///WAITING FOR CODABLE TRANSFORMATION
+
 struct ChatMessage: Identifiable{
     var id: String{ documentId }
     
