@@ -71,7 +71,7 @@ struct MainMessagesView: View {
             }
         }
         .onAppear(){
-            userAuth.fetchCurrentUser()
+            mainMessageViewModel.fetchCurrentUser()
             print(" printed(✳️CNB✳️ \(FirebaseManager.shared.auth.currentUser?.uid))")
         }
         .padding()
@@ -92,7 +92,19 @@ struct MainMessagesView: View {
     
     private var messagesView: some View{
         ScrollView{
-            ForEach(0..<10, id: \.self) { num in
+            ForEach(mainMessageViewModel.recentMessages) { message in
+                let image =       AsyncImage(url: URL(string: message.profileImageUrl)){ image in
+                    image.resizable()
+                        .frame(width: 64, height: 64)
+                        .cornerRadius(32)
+                        .shadow(radius: 6)
+                          
+                }placeholder: {
+                //something here maybe in future
+                }
+                    
+                //.overlay(RoundedRectangle)
+                 
                 VStack{
                     NavigationLink{
                         Text("DESTINATION")
@@ -100,19 +112,16 @@ struct MainMessagesView: View {
                     }
                 label:{
                         HStack(spacing: 16){
-                            Image(systemName: "person.fill")
-                                .font(.system(size: 32))
-                                .padding()
-                                .overlay(RoundedRectangle(cornerRadius: 32)
-                                    .stroke(Color(.label), lineWidth: 0.5))
-                            
+                            image
+                                
                             VStack(alignment: .leading){
-                                Text("Username")
+                                Text(message.email)
                                     .font(.system(size: 16, weight: .bold))
                                     .foregroundColor(Color(.label))
-                                Text("Message to send to user ")
+                                Text(message.text)
                                     .font(.system(size: 14))
                                     .foregroundColor(Color(.lightGray))
+                                    .multilineTextAlignment(.leading)
                             }
                             Spacer()
                             Text("22d")

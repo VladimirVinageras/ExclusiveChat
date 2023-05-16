@@ -14,6 +14,10 @@ struct FirebaseConstants{
     static let toId = "toId"
     static let text = "text"
     static let timeStamp = "timeStamp"
+    static let profileImageUrl = "profileImageUrl"
+    static let email = "email"
+    static let recent_messages = "recent_messages"
+    static let messages = "messages"
 }
 
 struct ChatMessage: Identifiable{
@@ -39,6 +43,8 @@ struct ChatMessage: Identifiable{
     @Published var chatMessage = ""
     @Published var errorMessage = ""
     @Published var chatMessages = [ChatMessage]()
+    
+    @Published var scrollerUpdater = 0
     
     let chatUser : ChatUser?
     
@@ -73,6 +79,9 @@ struct ChatMessage: Identifiable{
                     }
                     
                 })
+                DispatchQueue.main.async {
+                    self.scrollerUpdater += 1
+                }
             }
     }
     
@@ -95,7 +104,10 @@ struct ChatMessage: Identifiable{
             }
                 
                 print("✳️✳️✳️✳️Succesfully saved message original")
-                self.chatMessage = "" 
+                self.persistRecentMessage()
+                
+                self.chatMessage = ""
+                self.scrollerUpdater += 1
             }
         
         let recipientMessageDocument = FirebaseManager.shared.firestore.collection("messages")
@@ -115,5 +127,35 @@ struct ChatMessage: Identifiable{
         print("⚛️⚛️⚛️⚛️ A message form: \(fromId)")
         print("⚛️⚛️⚛️⚛️  A message to: \(toId)")
     }
+    
+    func persistRecentMessage(){
+        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else {return}
+        guard let toId = self.chatUser?.uid else {return}
+        
+        let document = FirebaseManager.shared.firestore
+            .collection("recent_messages")
+            .document(uid)
+            .collection("messages")
+            .document(toId)
+        
+        let data = [FirebaseConstants.timeStamp : Timestamp(),
+                    FirebaseConstants.text : self.chatMessage,
+                    FirebaseConstants.formId : uid,
+                    FirebaseConstants.toId : toId,
+                    FirebaseConstants.profileImageUrl: chatUser?.profileImageUrl ?? "",
+                    FirebaseConstants.email : chatUser?.email ?? ""
+        ] as [String : Any]
+        
+        
+        document.setData(data){ error in
+            if let error = error {
+                self.errorMessage = "Failed to save recent message: \(error)"
+                print("❌❌❌ Failed to save recent message: \(error)")
+                return
+            }
+            
+        }
+    }
+    
 }
 
