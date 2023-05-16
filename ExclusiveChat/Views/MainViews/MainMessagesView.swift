@@ -124,7 +124,7 @@ struct MainMessagesView: View {
                                     .multilineTextAlignment(.leading)
                             }
                             Spacer()
-                            Text("22d")
+                            Text("\(Int(-1*(message.timeStamp.timeIntervalSinceNow/3600).rounded())) h")
                                 .font(.system(size: 14, weight: .semibold))
                         }
                     }

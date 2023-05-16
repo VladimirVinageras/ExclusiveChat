@@ -8,27 +8,16 @@
 import Foundation
 import SwiftUI
 import Firebase
+import FirebaseFirestoreSwift
 
-struct RecentMessage: Identifiable {
-    var id : String {documentId}
-    
-    let documentId : String
+struct RecentMessage: Identifiable, Codable {
+   @DocumentID var id : String?
     let text : String
     let fromId: String
     let toId : String
     let email : String
     let profileImageUrl : String
-    let timestamp : Timestamp
-    
-    init(documentId: String, data : [String : Any] ){
-        self.documentId = documentId
-        self.text = data[FirebaseConstants.text] as? String ?? ""
-        self.fromId = data[FirebaseConstants.formId] as? String ?? ""
-        self.toId = data[FirebaseConstants.toId] as? String ?? ""
-        self.email = data[FirebaseConstants.email] as? String ?? ""
-        self.profileImageUrl = data[FirebaseConstants.profileImageUrl] as? String ?? ""
-        self.timestamp = data[FirebaseConstants.timeStamp] as? Timestamp ?? Timestamp(date: Date())
-    }
+    let timeStamp : Date
 }
 
 @MainActor
@@ -61,11 +50,19 @@ class MainMessageViewModel: ObservableObject{
                     let docId = change.document.documentID
                     
                     if let index = self.recentMessages.firstIndex(where: {recentMessage in
-                        return recentMessage.documentId == docId
+                        return recentMessage.id == docId
                     }){
                         self.recentMessages.remove(at: index)
                     }
-                    self.recentMessages.insert(.init(documentId: docId, data: change.document.data()), at: 0)
+                    
+                    do{
+                        if let recentMessage = try change.document.data(as: RecentMessage.self) as RecentMessage? {
+                            self.recentMessages.insert(recentMessage, at: 0)
+
+                        }
+                    }catch{
+                        print(error)
+                    }
                 })
                 
             }
