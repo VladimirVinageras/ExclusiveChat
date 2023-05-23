@@ -10,7 +10,7 @@ import SwiftUI
 struct ChatUser: Identifiable{
     var id: String { uid }
     let uid: String
-    let email: String
+    var email: String
     let profileImageUrl: String
 }
 

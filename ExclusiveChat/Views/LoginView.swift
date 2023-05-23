@@ -10,9 +10,7 @@ import AuthenticationServices
 
 struct LoginView: View {
     @EnvironmentObject var userAuth : UserAuth
-    
     @StateObject var loginViewModel = LoginViewModel()
-    
     @State var isSignInMode = true
     @State var shouldShowImagePicker = false
     @State var inputImage : UIImage? = UIImage(named: "Default.jpg")
@@ -22,7 +20,13 @@ struct LoginView: View {
     
     private func handleAction(){
         if isSignInMode {
-            loginViewModel.signInWithEmail(email: email, password: password)
+            do{
+                try loginViewModel.signInWithEmail(email: email, password: password)
+            }
+            catch{
+              print(error)
+            }
+            userAuth.fetchCurrentUser()
             userAuth.isLoggedin = true
             ScreenDispatcherView()
             
@@ -99,20 +103,26 @@ struct LoginView: View {
                     .padding(.vertical)
                     Spacer()
                     Spacer()
-                    Text("or")
-                    Spacer()
-                    
-                    SignInWithAppleButton(
-                        onRequest: { request in
-                            loginViewModel.handleRequest(request: request)
-                        },
-                        onCompletion: { result in
-                            loginViewModel.handleResult(result: result, userAuth.login())
-                            
-                        }
-                    )
-                    .frame(width: 350, height: 45,alignment: .center)
-                    .padding()
+                   
+                //Authentication with apple Credentials
+                   Group {
+                        //                    Text("or")
+                        //                    Spacer()
+                        //
+                        //                    SignInWithAppleButton(
+                        //                        onRequest: { request in
+                        //                            loginViewModel.handleRequest(request: request)
+                        //                        },
+                        //                        onCompletion: { result in
+                        //                            loginViewModel.handleResult(result: result, userAuth.login())
+                        //
+                        //                        }
+                        //                    )
+                        //                    .frame(width: 350, height: 45,alignment: .center)
+                        //                    .padding()
+                        //
+                        
+                    }
                     
                 }
                 .padding()

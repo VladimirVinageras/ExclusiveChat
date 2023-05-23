@@ -1,5 +1,5 @@
 //
-//  ChatLogViewModel.swift
+//  ChatMessagesViewModel.swift
 //  ExclusiveChat
 //
 //  Created by Vladimir Vinageras on 12.05.2023.
@@ -9,57 +9,22 @@ import Foundation
 import SwiftUI
 import Firebase
 
-struct FirebaseConstants{
-    static let formId = "fromId"
-    static let toId = "toId"
-    static let text = "text"
-    static let timeStamp = "timeStamp"
-    static let profileImageUrl = "profileImageUrl"
-    static let email = "email"
-    static let recent_messages = "recent_messages"
-    static let messages = "messages"
-}
 
-struct ChatMessage: Identifiable{
-    var id: String{ documentId }
-    
-    let documentId: String
-    let fromId : String
-    let toId : String
-    let text : String
-    let timeStamp : String
-    
-    init(documentId: String, data: [String: Any]){
-        self.documentId = documentId
-        self.fromId = data[FirebaseConstants.formId] as? String ?? ""
-        self.toId = data[FirebaseConstants.toId] as? String ?? ""
-        self.text = data[FirebaseConstants.text] as? String ?? ""
-        self.timeStamp = data[FirebaseConstants.timeStamp] as? String ?? ""
-        
-    }
-}
-
-@MainActor class ChatLogViewModel: ObservableObject{
+@MainActor class ChatMessagesViewModel: ObservableObject{
     @Published var chatMessage = ""
     @Published var errorMessage = ""
     @Published var chatMessages = [ChatMessage]()
-    
     @Published var scrollerUpdater = 0
-    
-    let chatUser : ChatUser?
-    
-    
-    init(chatUser: ChatUser?){
-        self.chatUser = chatUser
         
-        fetchMessages()
-    }
+    var firestoreListener : ListenerRegistration?
     
-    private func fetchMessages(){
+    func fetchMessages(chatRecipientUser: ChatUser?){
+        
         guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else {return}
         
-        guard let toId = chatUser?.uid else {return}
-                FirebaseManager.shared.firestore
+        guard let toId = chatRecipientUser?.uid else {return} ///// el problema esta aquiiiiii
+         firestoreListener?.remove()
+              firestoreListener = FirebaseManager.shared.firestore
             .collection("messages")
             .document(fromId)
             .collection(toId)
@@ -86,9 +51,9 @@ struct ChatMessage: Identifiable{
     }
     
       
-    func handleSend(){
+    func handleSend(chatRecipientUser: ChatUser?){
         guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else {return}
-        guard let toId = chatUser?.uid else {return}
+        guard let toId = chatRecipientUser?.uid else {return}
         
         let document = FirebaseManager.shared.firestore.collection("messages")
             .document(fromId)
@@ -104,7 +69,7 @@ struct ChatMessage: Identifiable{
             }
                 
                 print("✳️✳️✳️✳️Succesfully saved message original")
-                self.persistRecentMessage()
+                self.persistRecentMessage(chatRecipientUser: chatRecipientUser)
                 
                 self.chatMessage = ""
                 self.scrollerUpdater += 1
@@ -128,9 +93,9 @@ struct ChatMessage: Identifiable{
         print("⚛️⚛️⚛️⚛️  A message to: \(toId)")
     }
     
-    func persistRecentMessage(){
+    func persistRecentMessage(chatRecipientUser: ChatUser?){
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else {return}
-        guard let toId = self.chatUser?.uid else {return}
+        guard let toId = chatRecipientUser?.uid else {return}
         
         let document = FirebaseManager.shared.firestore
             .collection("recent_messages")
@@ -142,8 +107,8 @@ struct ChatMessage: Identifiable{
                     FirebaseConstants.text : self.chatMessage,
                     FirebaseConstants.formId : uid,
                     FirebaseConstants.toId : toId,
-                    FirebaseConstants.profileImageUrl: chatUser?.profileImageUrl ?? "",
-                    FirebaseConstants.email : chatUser?.email ?? ""
+                    FirebaseConstants.profileImageUrl: chatRecipientUser?.profileImageUrl ?? "",
+                    FirebaseConstants.email : chatRecipientUser?.email ?? ""
         ] as [String : Any]
         
         

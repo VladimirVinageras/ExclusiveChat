@@ -13,6 +13,7 @@ import Firebase
     
     @Published var isLoggedin: Bool = false
     @Published var chatUser = ChatUser(uid: "", email: "", profileImageUrl: "")
+    @Published var recipientUser : ChatUser? =  ChatUser(uid: "", email: "", profileImageUrl: "")
    
     
     
@@ -28,6 +29,7 @@ import Firebase
     func logOut(){
         self.isLoggedin = false
     }
+    
     
     func fetchCurrentUser() {
         print("🌀🌀🌀🌀 \(FirebaseManager.shared.auth.currentUser?.uid)")

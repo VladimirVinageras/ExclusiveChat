@@ -42,7 +42,7 @@
 //    }
 //}
 //
-//struct messagesView_Previews: PreviewProvider {
+//struct MessagesView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        MessagesView(chatLogViewModel: ChatLogViewModel(chatUser: nil))
 //    }

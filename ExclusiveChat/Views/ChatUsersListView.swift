@@ -1,5 +1,5 @@
 //
-//  CreateNewMessageView.swift
+//  ChatUsersListView.swift
 //  ExclusiveChat
 //
 //  Created by Vladimir Vinageras on 10.05.2023.
@@ -7,21 +7,19 @@
 
 import SwiftUI
 
-struct CreateNewMessageView: View {
-    let didSelectNewUSer : (ChatUser)-> ()
-    
+struct ChatUsersListView: View {
+    let didSelectNewUser : (ChatUser)-> ()
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var createNewMessageViewModel = CreateNewMessageViewModel()
+    @ObservedObject var chatUserListViewModel = ChatUsersListViewModel()
     
     var body: some View {
         NavigationView{
             ScrollView{
-                Text(createNewMessageViewModel.errorMessage)
-                ForEach(createNewMessageViewModel.users){ user in
+                ForEach(chatUserListViewModel.users){ user in
                     Button {
                         presentationMode.wrappedValue
                             .dismiss()
-                        didSelectNewUSer(user)
+                        didSelectNewUser(user)
                     }
                 label:{
                     HStack(spacing: 16){
@@ -35,6 +33,8 @@ struct CreateNewMessageView: View {
                         
                         Text("\(user.email)")
                             .foregroundColor(Color(.label))
+                            .font(.title2)
+                            .padding()
                         Spacer()
                     }.padding(.horizontal)
                     Divider()
@@ -44,7 +44,7 @@ struct CreateNewMessageView: View {
                     
                     
             }
-            .navigationTitle("New Message")
+            .navigationTitle("Contacts:")
             .toolbar{
                 ToolbarItemGroup(placement: .navigationBarLeading){
                     Button {
@@ -63,8 +63,7 @@ struct CreateNewMessageView: View {
 
 struct CreateNewMessageView_Previews: PreviewProvider {
     static var previews: some View {
-      //  CreateNewMessageView()
         
-        MainMessagesView()
+        ChatsListView()
     }
 }
