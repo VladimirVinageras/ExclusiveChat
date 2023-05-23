@@ -1,5 +1,5 @@
 //
-//  MainMessageViewModel.swift
+//  ChatsListViewModel.swift
 //  ExclusiveChat
 //
 //  Created by Vladimir Vinageras on 07.05.2023.
@@ -10,31 +10,35 @@ import SwiftUI
 import Firebase
 import FirebaseFirestoreSwift
 
-struct RecentMessage: Identifiable, Codable {
-   @DocumentID var id : String?
-    let text : String
-    let fromId: String
-    let toId : String
-    let email : String
-    let profileImageUrl : String
-    let timeStamp : Date
-}
+
 
 @MainActor
-class MainMessageViewModel: ObservableObject{
+class ChatsListViewModel: ObservableObject{
     @Published var errorMessage = ""
-    @Published var chatUser: ChatUser?
-   @Published var recentMessages = [RecentMessage]()
-
+    @Published var chatCurrentUser : ChatUser?
+    {
+        willSet{
+            objectWillChange.send()
+        }
+    }
+    @Published var recentMessages = [RecentMessage]()
+    
+    private var firestoreListenerForMessages : ListenerRegistration?
+    
     init(){
         fetchCurrentUser()
         fetchRecentMessages()
         print("🚹🚹🚹 \(FirebaseManager.shared.auth.currentUser?.uid)")
     }
     
+
+    
     func fetchRecentMessages(){
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else {return}
-        FirebaseManager.shared.firestore
+        
+        self.recentMessages.removeAll()
+        self.firestoreListenerForMessages?.remove()
+        firestoreListenerForMessages = FirebaseManager.shared.firestore
             .collection(FirebaseConstants.recent_messages)
             .document(uid)
             .collection(FirebaseConstants.messages)
@@ -67,9 +71,10 @@ class MainMessageViewModel: ObservableObject{
                 
             }
     }
-
+    
     func handleSignOut(){
         FirebaseManager.shared.signOut()
+        
     }
     
     func fetchCurrentUser() {
@@ -89,11 +94,12 @@ class MainMessageViewModel: ObservableObject{
                 print(data )
 
                 
-                let uid = data["uid"] as? String ?? ""
-                let email = data["email"] as? String ?? ""
-                let profileImageUrl = data["profileImageUrl"] as? String ?? ""
+                let uid = data[FirebaseConstants.uid] as? String ?? ""
+                let email = data[FirebaseConstants.email] as? String ?? ""
+                let profileImageUrl = data[FirebaseConstants.profileImageUrl] as? String ?? ""
                 
-                self.chatUser = ChatUser(uid: uid, email: email, profileImageUrl: profileImageUrl)
+                self.chatCurrentUser = ChatUser(uid: uid, email: email, profileImageUrl: profileImageUrl)
+
             }
     }
 }

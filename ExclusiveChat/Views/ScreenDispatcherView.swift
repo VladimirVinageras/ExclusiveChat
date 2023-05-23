@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ScreenDispatcherView: View {
     @StateObject var userAuth = UserAuth()
+   
     
     var body: some View {
         NavigationStack{
@@ -16,7 +17,7 @@ struct ScreenDispatcherView: View {
                 LoginView()
                     .environmentObject(userAuth)
             }else{
-                MainMessagesView()
+                ChatsListView()
                     .environmentObject(userAuth)
             }
         }
